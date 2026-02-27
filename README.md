@@ -1,10 +1,12 @@
-# MTG Decklist Block (WordPress)
+# MTG Decklist Block for WordPress
 
 A WordPress/Gutenberg block that turns a pasted **Magic: The Gathering** decklist into a clean, link-rich deck display on the frontend.
 
 This plugin was mainly coded with ChatGPT 5.2, so the code is not too pretty. I did most of the CSS of the three major styles for the frontend, since the generated designs were somewhat … meh. Still, I would never have been able to put this together so quickly and I saved a lot of time not having to look up the details of how to make a new Wordpress block.
 
 The frontend UI is not ideal for custom styling just yet, but I'm looking into it. I guess you can override most styles just fine via the class names. YMMV.
+
+I do appreciate donations! And, if you file issues, I'll look at them. Can't promise anything here, but if I get to it, who knows.
 
 ## Features
 
