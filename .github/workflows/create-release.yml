@@ -43,9 +43,11 @@ jobs:
 
           mkdir -p "dist/${PLUGIN_SLUG}"
 
-          # exclude dist to avoid recursion
+          # exclude dist to avoid recursion. exclude repo meta.
           rsync -a --delete \
             --exclude "dist" \
+            --exclude ".git" \
+            --exclude ".github" \
             ./ "dist/${PLUGIN_SLUG}/"
 
       - name: Set version in plugin info comment
