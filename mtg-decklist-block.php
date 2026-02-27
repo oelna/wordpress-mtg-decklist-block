@@ -1,16 +1,22 @@
 <?php
 /**
  * Plugin Name: MTG Decklist Block
+ * Plugin URI: https://github.com/oelna/wordpress-mtg-decklist-block
  * Description: Gutenberg block that turns Magic: The Gathering decklists into a formatted, linked table with grouping, Scryfall enrichment, and clipboard copy.
- * Version: 1.3.3
+ * Version: 1.3.5
+ * Requires at least: 5.8
  * Update URI: https://github.com/oelna/wordpress-mtg-decklist-block
  * Author: Arno Richter
+ * Author URI: https://arnorichter.de
  * License: MIT
  */
 
 if (!defined('ABSPATH')) {
 	exit;
 }
+
+define('MTGDL_AUTHOR', 'oelna');
+define('MTGDL_REPO', 'wordpress-mtg-decklist-block');
 
 function mtgdl_register_block() {
 	wp_register_script(
@@ -736,7 +742,7 @@ function mtgdl_render_block($attributes, $content = '', $block = null) {
 add_filter('update_plugins_github.com', 'mtgdl_update_from_github', 10, 4);
 
 function mtgdl_update_from_github($update, $plugin_data, $plugin_file, $locales) {
-	$expected_update_uri = 'https://github.com/oelna/wordpress-mtg-decklist-block';
+	$expected_update_uri = 'https://github.com/'.MTGDL_AUTHOR.'/'.MTGDL_REPO;
 	$expected_plugin_file = plugin_basename(__FILE__);
 
 	if (empty($plugin_data['UpdateURI']) || $plugin_data['UpdateURI'] !== $expected_update_uri) {
@@ -774,7 +780,7 @@ function mtgdl_github_latest_release_cached() {
 		return $cached;
 	}
 
-	$repo_api = 'https://api.github.com/repos/oelna/wordpress-mtg-decklist-block/releases/latest';
+	$repo_api = 'https://api.github.com/repos/'.MTGDL_AUTHOR.'/'.MTGDL_REPO.'/releases/latest';
 
 	$args = array(
 		'timeout' => 15,
