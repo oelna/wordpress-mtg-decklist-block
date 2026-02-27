@@ -24,7 +24,8 @@ jobs:
         id: plugin
         shell: bash
         run: |
-          VERSION="$(awk -F': *' 'tolower($1)=="version" {print $2; exit}' mtg-decklist-block.php | tr -d '\r')"
+          # VERSION="$(awk -F': *' 'tolower($1)=="version" {print $2; exit}' style.css | tr -d '\r')"
+          VERSION="$(awk 'BEGIN{IGNORECASE=1} /^[[:space:]]*\*?[[:space:]]*Version[[:space:]]*:/ {sub(/^[^:]*:[[:space:]]*/,""); print; exit}' mtg-decklist-block.php | tr -d '\r')"
           if [ -z "$VERSION" ]; then
             echo "Version not found" >&2
             exit 1
