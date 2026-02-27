@@ -1,0 +1,257 @@
+/* Frontend styling */
+.mtgdl {
+	--mtgdl-border: rgba(0, 0, 0, 0.15);
+	--mtgdl-muted: rgba(0, 0, 0, 0.75);
+	--mtgdl-bg: transparent;
+	--mtgdl-radius: 12px;
+
+	background: var(--mtgdl-bg);
+}
+
+.mtgdl-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(30ch, 1fr));
+	gap: 1rem;
+
+	section h3:first-of-type {
+		margin-block-start: 0;
+	}
+}
+
+.mtgdl-controls {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	margin: 2rem 0 10px 0;
+}
+
+.mtgdl-copy {
+	appearance: none;
+	border: 1px solid var(--mtgdl-border);
+	border-radius: 999px;
+	background: transparent;
+	padding: 6px 10px;
+	cursor: pointer;
+	font: inherit;
+}
+
+.mtgdl-copy:hover {
+	filter: brightness(0.95);
+}
+
+.mtgdl-copy-status {
+	font-size: 0.9em;
+	color: var(--mtgdl-muted);
+	min-height: 1em;
+}
+
+.mtgdl-section-title {
+	margin: 1.2em 0 0.5em;
+}
+
+.mtgdl-subsection-title {
+	font-weight: 700;
+	margin: 0.8em 0 0.8em;
+	margin: 0.75lh 0 0.5lh;
+}
+
+.mtgdl-table {
+	width: 100%;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.mtgdl-table th {
+	display: none;
+	font-weight: 600;
+	color: var(--mtgdl-muted);
+	text-align: left;
+	padding: 0.45em 0.55em;
+	border-bottom: 1px solid var(--mtgdl-border);
+	white-space: nowrap;
+}
+
+.mtgdl-table td {
+	padding: 0.4em 0.55em;
+	border-bottom: 1px solid var(--mtgdl-border);
+	vertical-align: top;
+
+	tr:last-of-type:not(#\9) & {
+		border-bottom-color: transparent;
+	}
+}
+
+.mtgdl-th-qty,
+.mtgdl-qty {
+	width: 4.5ch;
+	text-align: left;
+	font-variant-numeric: tabular-nums;
+}
+
+.mtgdl-th-ci,
+.mtgdl-ci {
+	width: 6ch;
+	text-align: center;
+
+	display: none;
+}
+
+.mtgdl-th-mana,
+.mtgdl-mana-cell {
+	width: 16ch;
+}
+
+.mtgdl-group-row td {
+	padding-top: 1.5em;
+	padding-bottom: 0.5em;
+	padding-inline: 0.35em;
+	font-weight: 600;
+	color: var(--mtgdl-muted);
+	border-bottom: none;
+}
+
+.mtgdl-ci-badge {
+	display: inline-block;
+	padding: 2px 6px;
+	border-radius: 999px;
+	border: 1px solid var(--mtgdl-border);
+	font-size: 0.85em;
+	line-height: 1.2;
+}
+
+.mtgdl-mana {
+	display: inline-flex;
+	gap: 4px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.mtgdl-mana-num,
+.mtgdl-mana-sym {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 1.5em;
+	height: 1.5em;
+	padding: 0 6px;
+	border-radius: 0.75em;
+	corner-shape: round;
+	background-color: #bbb;
+	color: #333;
+	border: 1px solid var(--mtgdl-border);
+	font-size: 0.75em;
+	line-height: 1;
+}
+
+.mtgdl-mana-w { background-color: #fff6c0; color: #43402f; }
+.mtgdl-mana-u { background-color: #2176ff; color: #82f9ff; }
+.mtgdl-mana-r { background-color: #ff633f; color: #ffee5a; }
+.mtgdl-mana-g { background-color: #5a9400; color: #85ff4e; }
+.mtgdl-mana-b { background-color: #444; color: #ddd; }
+
+.mtgdl-card-link {
+	text-decoration: none;
+}
+
+.mtgdl-card-link:hover,
+.mtgdl-card-link:focus {
+	text-decoration: underline;
+}
+
+/* Hide source textarea but keep accessible to JS */
+.mtgdl-source {
+	position: absolute;
+	left: -9999px;
+	top: -9999px;
+	width: 1px;
+	height: 1px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+/* Tooltip */
+.mtgdl-tooltip {
+	position: absolute;
+	z-index: 99999;
+	display: none;
+	pointer-events: none;
+	max-width: min(260px, 60vw);
+}
+
+.mtgdl-tooltip.is-visible {
+	display: block;
+}
+
+.mtgdl-tooltip .mtgdl-tooltip-inner {
+	background: red;
+	border-radius: 14px;
+	corner-shape: superellipse(1.4);
+	overflow: hidden;
+	box-shadow:
+		1px 2px 2px hsl(0deg 0% 0% / 0.333),
+		2px 4px 4px hsl(0deg 0% 0% / 0.333),
+		3px 6px 6px hsl(0deg 0% 0% / 0.333);
+}
+
+.mtgdl-tooltip img {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 0px;
+}
+
+.mtgdl-tooltip.is-loading img {
+	opacity: 0.6;
+	filter: blur(1px);
+}
+
+/* CSS Anchor Positioning (progressive enhancement; browser support varies) */
+@supports (left: anchor(right)) and (position-anchor: --a) {
+	.mtgdl-tooltip.mtgdl-anchor-supported {
+		left: anchor(right);
+		top: anchor(top);
+		margin-left: 12px;
+	}
+}
+
+/* Style A */
+.mtgdl--style-a {
+	--mtgdl-bg: transparent;
+
+	.mtgdl-table th,
+	.mtgdl-table tr:not(.mtgdl-group-row) td {
+		padding: 0.1em 0.2em;
+		background-color: var(--mtgdl-bg);
+		border-bottom: 0px;
+	}
+}
+
+/* Style B */
+.mtgdl--style-b {
+	--mtgdl-bg: transparent;
+
+	.mtgdl-table tr:nth-child(even) td {
+		background: var(--mtgdl-bg);
+	}
+}
+
+/* Style C */
+.mtgdl--style-c {
+	--mtgdl-bg: transparent;
+
+	section {
+		padding: 15px;
+		/*
+		border-radius: var(--mtgdl-radius);
+		corner-shape: superellipse(1.25);
+		*/
+		border: 1px solid var(--mtgdl-border);
+		background: rgba(0, 0, 0, 0.05);
+	}
+
+	.mtgdl-table th,
+	.mtgdl-table tr:not(.mtgdl-group-row) td {
+		padding: 0.25em 0.35em;
+		border-bottom: 1px solid var(--mtgdl-border);
+	}
+}
