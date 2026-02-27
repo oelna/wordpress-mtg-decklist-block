@@ -1,0 +1,90 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+  #push:
+    # Sequence of patterns matched against refs/tags
+    #tags:
+      #- 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+permissions:
+  contents: write
+
+env:
+  PLUGIN_SLUG: mtg-decklist-block
+
+jobs:
+  build:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+      - name: Read plugin version
+        id: plugin
+        shell: bash
+        run: |
+          VERSION="$(awk -F': *' 'tolower($1)=="version" {print $2; exit}' mtg-decklist-block.php | tr -d '\r')"
+          if [ -z "$VERSION" ]; then
+            echo "Version not found" >&2
+            exit 1
+          fi
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        run: echo "${{ github.sha }} ${{ steps.plugin.outputs.version }}" > Release.txt
+        # run: echo "${{ github.sha }} ${{ steps.plugin.outputs.version }}"
+
+      - name: Build plugin zip file
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          mkdir -p "dist/${PLUGIN_SLUG}"
+
+          # exclude dist to avoid recursion
+          rsync -a --delete \
+            --exclude "dist" \
+            ./ "dist/${PLUGIN_SLUG}/"
+
+      
+
+      - name: Package zip
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          (
+            cd dist
+            zip -r "${PLUGIN_SLUG}.zip" "${PLUGIN_SLUG}"
+          )
+
+      - name: Release
+        id: release
+        uses: softprops/action-gh-release@v2
+        # if: github.ref_type == 'tag'
+        with:
+          name: "v1.2.${{ github.run_number }}"
+          #name: "v${{ steps.theme.outputs.version }}"
+          #tag_name: "v${{ steps.theme.outputs.version }}"
+          tag_name: "v1.0.${{ github.run_number }}"
+          make_latest: true
+          files: dist/${{ env.PLUGIN_SLUG }}.zip
+          #generate_release_notes: true
+          preserve_order: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Print receipt
+        shell: bash
+        run: |
+          echo '${{ toJson(steps.release.outputs) }}'
+      - name: Debug environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          which sed || true
+          sed --version || true
+          ls -la
+          ls -la dist/${PLUGIN_SLUG} || true
+          head -n 20 dist/${PLUGIN_SLUG}/mtg-decklist-block.php || true
